@@ -1,0 +1,1 @@
+- This includes uml class entity diagrams, Control boundary diagrams, dialog map
