@@ -30,9 +30,8 @@ Park IT enables drivers to securely register and log in, search for available ca
 
 
 ## Prerequisites
-- **Java Development Kit (JDK):** Version 8 or above.
-- **Gradle:** Either use the Gradle wrapper provided or install Gradle separately.
-- **IDE:** Recommended IDE is IntelliJ IDEA (or any other Java IDE).
+- **Java Development Kit (JDK):** Version 17
+- **Gradle:** Either use the Gradle wrapper provided or install Gradle separately
 
 
 
