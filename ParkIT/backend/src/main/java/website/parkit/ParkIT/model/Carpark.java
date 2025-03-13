@@ -37,7 +37,6 @@ public class Carpark {
     /**
      * Refreshes the number of available lots
      *
-     * @param delta the change in available lots
      */
     public void updateAvailableLots() {
         // TODO

@@ -65,7 +65,7 @@ public class Driver extends Account {
      *
      * @return a list of favorite car parks
      */
-    public List<Parking> getFavoriteCarparks() {
+    public List<FavouriteCarpark> getFavoriteCarparks() {
         return favoriteCarparks;
     }
 
@@ -75,7 +75,7 @@ public class Driver extends Account {
      * @param carpark the car park to remove
      * @return true if the car park was found and removed, false otherwise
      */
-    public boolean removeFavouriteCarpark(Carpark carpark){
+    public boolean removeFavouriteCarpark(FavouriteCarpark favouriteCarpark){
         // TODO: Removes the specified car park from the favorites.
         return true;
     }
