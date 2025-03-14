@@ -9,7 +9,7 @@ BACKEND_PID=$!
 
 # Start the frontend (Vite)
 echo "Starting Vite frontend..."
-( cd frontend && npm run dev ) &
+( cd frontend && npm install && npm run dev ) &
 FRONTEND_PID=$!
 
 echo "Backend running with PID: $BACKEND_PID"
