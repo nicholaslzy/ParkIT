@@ -3,6 +3,7 @@ package website.parkit.ParkIT.model;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDateTime;
 
 public class Driver extends Account {
 
@@ -55,9 +56,11 @@ public class Driver extends Account {
      * @param carpark the car park to be added to favorites
      */
     public void setFavoriteCarpark(Carpark carpark) {
-        FavouriteCarpark favouriteCarpark = new FavouriteCarpark();
+        // FavouriteCarpark favouriteCarpark = new FavouriteCarpark();
+        
         // TODO: Initialize favouriteCarpark with details from the provided carpark.
-        this.favoriteCarparks.add(favouriteCarpark);
+        
+        // this.favoriteCarparks.add(favouriteCarpark);
     }
 
     /**
@@ -66,7 +69,7 @@ public class Driver extends Account {
      * @return a list of favorite car parks
      */
     public List<FavouriteCarpark> getFavoriteCarparks() {
-        return favoriteCarparks;
+        return this.favoriteCarparkList;
     }
 
     /**
@@ -85,9 +88,14 @@ public class Driver extends Account {
      * This creates a ParkingSession object, sets its start time to the current time,
      * and assigns it to the activeSession.
      */
-    public void startSession() {
-        activeSession = new ParkingSession();
-        activeSession.setStartTime(LocalDateTime.now());
+    public void startSession(Carpark carpark) {
+
+        // Create a new ParkingSession object with the details of the car park and driver
+        // TODO
+
+        // Assign the session to the activeSession
+        // activeSession = session;
+
     }
 
     /**

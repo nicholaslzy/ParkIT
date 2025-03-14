@@ -6,7 +6,6 @@ import website.parkit.ParkIT.model.Driver;
 import java.util.List;
 
 
-@Controller
 public class FilterController {
 
 

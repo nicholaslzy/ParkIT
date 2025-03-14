@@ -1,8 +1,43 @@
 # ParkIT
-![Gif+2-min](https://github.com/user-attachments/assets/e5d44693-f02e-448e-9142-11e41289637b)
 
-ParkIT is a web application built with the Java Spring Framework, featuring the MVC (Model-View-Controller) architecture.
+ParkIT is a web application built with the Java Spring Framewor as backend, and react.js and tailwind CSS frameworks for frontend.
 Park IT enables drivers to securely register and log in, search for available car parks, manage active parking sessions with real-time navigation and cost calculation, and review their parking history along with saving favorite car parks.
+
+## Tech stack
+
+### Backend
+- **Language:** Java
+- **Framework:** Spring Boot
+- **Build Tool:** Gradle
+
+### Frontend
+- **Framework:** React.js
+- **Bundler/Dev Server:** Vite
+- **Styling:** Tailwind CSS
+
+
+
+## Getting Started
+
+1. **Prerequisites**
+    - **Java 21** (JDK)
+    - **Node.js** (includes npm)
+2. **Open Terminal** 
+
+   On Windows, **avoid using PowerShell or CMD**. Use Git Bash or WSL
+
+2. **Navigate to Project Root**  
+   ```bash
+   cd ParkIT
+   
+3. **Run startup script**  
+    ```bash
+    ./start.sh
+    ```
+    The shell script installs required dependencies, and runs backend + frontend servers
+4. **Open Browser** 
+    http://localhost:5173/
+
 
 ## Project Structure
 
@@ -15,24 +50,6 @@ Park IT enables drivers to securely register and log in, search for available ca
 | `model/Carpark.java`              | Contains car park details, including location, lot availability, and parking rates. Data to be populated by URA API |
 | `model/ParkingSession.java`       | Manages active parking sessions, including starting/ending sessions, and calculating elapsed time and cost.         |
 | `model/ParkingHistory.java`       | Records completed parking sessions, capturing details like cost, location, start time, and duration.                |
-
-### Views
-| File Directory        |
-|-----------------------|
-| `views/Dashboard.js`  |
-| `views/Favourites.js` |
-| `views/Login.js`      |
-| `views/Navigation.js` |
-| `views/Profile.js`    |
-| `views/Register.js`   |
-| `views/Search.js`     |
-| `views/Settings.js`   |
-
-
-## Prerequisites
-- **Java Development Kit (JDK):** Version 17
-- **Gradle:** Either use the Gradle wrapper provided or install Gradle separately
-
 
 
 ## APIs Used
