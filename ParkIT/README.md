@@ -5,12 +5,12 @@ Park IT enables drivers to securely register and log in, search for available ca
 
 ## Tech stack
 
-### Backend:
+### Backend
 - **Language:** Java
 - **Framework:** Spring Boot
 - **Build Tool:** Gradle
 
-### Frontend:
+### Frontend
 - **Framework:** React.js
 - **Bundler/Dev Server:** Vite
 - **Styling:** Tailwind CSS
@@ -24,7 +24,7 @@ Park IT enables drivers to securely register and log in, search for available ca
     - **Node.js** (includes npm)
 2. **Open Terminal** 
 
-   **On Windows, avoid using PowerShell or CMD**. Use Git Bash or WSL
+   On Windows, **avoid using PowerShell or CMD**. Use Git Bash or WSL
 
 2. **Navigate to Project Root**  
    ```bash
@@ -33,8 +33,9 @@ Park IT enables drivers to securely register and log in, search for available ca
 3. **Run startup script**  
     ```bash
     ./start.sh
+    ```
+    The shell script installs required dependencies, and runs backend + frontend servers
 4. **Open Browser** 
-    ```bash
     http://localhost:5173/
 
 
