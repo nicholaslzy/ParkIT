@@ -1,35 +1,39 @@
-import { useState } from 'react'
-import reactLogo from '../assets/react.svg'
-import viteLogo from '/vite.svg'
-import '../styles/App.css'
+import React, { Suspense, lazy } from 'react';
+import { BrowserRouter as Router, Routes, Route, Outlet, Navigate  } from 'react-router-dom';
+import Navbar from './Navbar';
+import Landing from './Landing';
 
-function App() {
-  const [count, setCount] = useState(0)
+const Park = lazy(() => import('./Park'));
+const Dashboard = lazy(() => import('./Dashboard'));
+const Profile = lazy(() => import('./Profile'));
 
+// App Layout to show navbar at the bottom
+const AppLayout = () => {
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>ParkIT</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Outlet /> {/* Render the child routes */}
+      <Navbar /> {/* Navbar at the bottom */}
     </>
-  )
+  );
+};
+
+function App() {
+  return (
+    <Router>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          
+          <Route path="/app" element={<AppLayout />}>
+          <Route index element={<Navigate to="park" replace />} />
+            <Route path="park" element={<Park />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="profile" element={<Profile />} />
+          </Route>
+        </Routes>
+      </Suspense>
+    </Router>
+  );
 }
 
-export default App
+export default App;

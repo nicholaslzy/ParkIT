@@ -11,7 +11,7 @@ Park IT enables drivers to securely register and log in, search for available ca
 - **Build Tool:** Gradle
 
 ### Frontend
-- **Framework:** React.js
+- **Framework:** React
 - **Bundler/Dev Server:** Vite
 - **Styling:** Tailwind CSS
 
@@ -37,6 +37,17 @@ Park IT enables drivers to securely register and log in, search for available ca
     The shell script installs required dependencies, and runs backend + frontend servers
 4. **Open Browser** 
     http://localhost:5173/
+
+## Debugging (view logs)
+
+- **Backend**
+    - ```cd backend```
+    - ```./gradlew bootRun```
+    
+- **Frontend** 
+    - ```cd frontend```
+    - ```npm run dev```
+
 
 
 ## Project Structure
