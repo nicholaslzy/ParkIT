@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { FiSearch, FiTarget } from 'react-icons/fi';
+import { FiSearch } from 'react-icons/fi';
 import { MdGpsFixed } from 'react-icons/md';
 
 const Park = () => {
@@ -11,15 +11,7 @@ const Park = () => {
   const mapRef = useRef(null);
   const markerRef = useRef(null);
 
-  // Fetch OneMap token from backend
-  const fetchToken = async (forceRefresh = false, isRetry = false) => {
-    try {
-      const response = await fetch(`http://localhost:8080/api/onemap/token?forceRefresh=${forceRefresh}`);
-      if (!response.ok) {
-        if (response.status === 401 && !isRetry) {
-          console.warn("401 Error. Refreshing token...");
-          return await fetchToken(true, true);
-        } else {
+
   // Fetch OneMap token from backend
   const fetchToken = async (forceRefresh = false, isRetry = false) => {
     try {
