@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 // Example icons from react-icons
-import { FaParking, FaChartBar, FaUser } from 'react-icons/fa';
+import { FaParking, FaChartBar, FaUser, FaBorderStyle } from 'react-icons/fa';
 
 const Navbar = () => {
   return (
@@ -38,22 +38,24 @@ const styles = {
     position: 'fixed',
     bottom: 0,
     width: '100%',
+    height: '60px',
     display: 'flex',
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: '#fff',
     padding: '5px 0',
+    borderTop: '1px solid #f0f0f0',
     zIndex: 1000, // ensure it appears above other elements
   },
   link: {
     textAlign: 'center',
-    padding: '5px 30px',
+    padding: '4px 30px',
     color: 'darkgrey',
     textDecoration: 'none',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    borderRadius: '20px',
+    borderRadius: '25px',
   },
   
   active: {

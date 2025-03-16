@@ -3,3 +3,8 @@
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
+
+.leaflet-control-attribution {
+  display: flex;
+  align-items: center;
+}
