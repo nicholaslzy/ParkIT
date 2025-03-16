@@ -20,6 +20,15 @@ const Park = () => {
           console.warn("401 Error. Refreshing token...");
           return await fetchToken(true, true);
         } else {
+  // Fetch OneMap token from backend
+  const fetchToken = async (forceRefresh = false, isRetry = false) => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/onemap/token?forceRefresh=${forceRefresh}`);
+      if (!response.ok) {
+        if (response.status === 401 && !isRetry) {
+          console.warn("401 Error. Refreshing token...");
+          return await fetchToken(true, true);
+        } else {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
       }
