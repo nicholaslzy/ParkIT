@@ -5,20 +5,27 @@ import 'leaflet/dist/leaflet.css';
 const OneMapBasemap = () => {
     const [accessToken, setAccessToken] = useState('');
 
-    // Function to fetch the token from the backend
-    const fetchToken = async (forceRefresh = false) => {
-      try {
-        const response = await fetch(`http://localhost:8080/api/onemap/token?forceRefresh=${forceRefresh}`);
-        if (!response.ok) {
+  // Fetch OneMap token from backend
+  const fetchToken = async (forceRefresh = false, isRetry = false) => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/onemap/token?forceRefresh=${forceRefresh}`);
+      if (!response.ok) {
+        if (response.status === 401 && !isRetry) {
+          console.warn("401 Error. Refreshing token...");
+          return await fetchToken(true, true);
+        } else {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-        const token = await response.text();
-        setAccessToken(token);
-        console.log("Retrieved token:", token);
-      } catch (error) {
-        console.error("Error fetching token:", error);
       }
-    };
+      const token = await response.text();
+      setAccessToken(token);
+      console.log("Retrieved token:", token);
+      return token;
+    } catch (error) {
+      console.error("Error fetching token:", error);
+      throw error;
+    }
+  };
 
     useEffect(() => {
         fetchToken();
