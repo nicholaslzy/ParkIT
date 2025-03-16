@@ -1,17 +1,17 @@
 package website.parkit.ParkIT.service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
+
 
  /* OneMapTokenService
  * -------------------
@@ -20,27 +20,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * - This service is responsible for communicating with the OneMap API to obtain an access token,
  *   tracking its expiry, and refreshing it as needed.
  *
+ * - Token Refresh
+ *   refreshToken() sends an HTTP POST request to the OneMap token endpoint using the credentials
+ *   (email and password). It parses the response to extract the access token and stores it.
+ * 
  * - Token Retrieval
  *   getToken() returns the current token. If the token is expired or not set, it triggers a refresh.
+ *   getAndRefreshToken() refreshes the token and returns it.
  *
- * - Token Refresh:
- *   refreshToken() sends an HTTP POST request to the OneMap token endpoint using the credentials
- *   (email and password). It parses the response to extract the access token and its expiration duration
- *   (provided as "expires_in" in seconds) and calculates the absolute expiry time.
- *
- * - Usage:
- *   Instead of a scheduled refresh, the token is refreshed on-demand—typically when an API call
- *   returns a 401 error
- *
- * - Configuration:
- *   The token endpoint URL, API credentials, etc. are injected from application properties or environment variables.
+ * - Configuration
+ *   The API credentials are injected from environment variables. Make sure to set the environment variables before running
  */
 
  @Service
 public class OneMapTokenService {
-
-    @Value("${onemap.base.url}")
-    private String tokenUrl;
 
     @Value("${onemap.api.email}")
     private String clientEmail;
@@ -49,8 +42,7 @@ public class OneMapTokenService {
     private String clientPassword;
 
     private String token;
-    private long expiryTime; // token expiry timestamp in milliseconds
-
+    private final String tokenUrl = "https://www.onemap.gov.sg/api/auth/post/getToken";
     private final RestTemplate restTemplate;
 
     public OneMapTokenService(RestTemplateBuilder restTemplateBuilder) {
@@ -59,34 +51,47 @@ public class OneMapTokenService {
     }
 
     public void refreshToken() {
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("email", clientEmail);
-        params.add("password", clientPassword);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        try {
+            // Create a Map for the request body
+            Map<String, String> requestBody = new HashMap<>();
+            requestBody.put("email", clientEmail);
+            requestBody.put("password", clientPassword);
 
-        HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<>(params, headers);
-        ResponseEntity<String> response = restTemplate.postForEntity(tokenUrl, requestEntity, String.class);
-        if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
-            try {
+            // Set headers for JSON
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            // Create the request entity with the JSON body
+            HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(requestBody, headers);
+
+            // Make the POST request
+            ResponseEntity<String> response = restTemplate.postForEntity(tokenUrl, requestEntity, String.class);
+
+            if (response.getStatusCode() == HttpStatus.OK && response.getBody() != null) {
+                // Parse the JSON to extract access_token
                 ObjectMapper mapper = new ObjectMapper();
-                Map<String, Object> responseMap = mapper.readValue(response.getBody(), Map.class);
+                Map<String, Object> responseMap = mapper.readValue(response.getBody(), new TypeReference<Map<String, Object>>() {});
+
                 this.token = (String) responseMap.get("access_token");
-                Number expiresIn = (Number) responseMap.get("expires_in");
-                this.expiryTime = System.currentTimeMillis() + expiresIn.longValue() * 1000;
-            } catch (Exception ex) {
-                System.err.println("Error parsing token response: " + ex.getMessage());
+                System.out.println("OneMap API Response: " + response.getBody());
+            } else {
+                System.err.println("Failed to refresh token. HTTP Status: " + response.getStatusCode());
             }
-        } else {
-            System.err.println("Failed to refresh token. HTTP Status: " + response.getStatusCode());
+
+        } catch (Exception ex) {
+            System.err.println("Error refreshing token: " + ex.getMessage());
         }
     }
-
+    
     public String getToken() {
-        // Refresh token if not set or expired
-        if (token == null || System.currentTimeMillis() >= expiryTime) {
+        if (token == null) {
             refreshToken();
         }
+        return token;
+    }
+
+    public String getAndRefreshToken() {
+        refreshToken();
         return token;
     }
     

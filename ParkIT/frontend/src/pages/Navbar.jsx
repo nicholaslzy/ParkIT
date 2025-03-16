@@ -1,25 +1,34 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 // Example icons from react-icons
 import { FaParking, FaChartBar, FaUser } from 'react-icons/fa';
 
 const Navbar = () => {
   return (
     <nav style={styles.navbar}>
-      <Link to="/park" style={styles.link}>
+      <NavLink 
+        to="/app/park" 
+        style={({ isActive }) => isActive ? { ...styles.link, ...styles.active } : styles.link}
+      >
         <FaParking size={24} />
         <div style={styles.label}>Park</div>
-      </Link>
+      </NavLink>
 
-      <Link to="/dashboard" style={styles.link}>
+      <NavLink 
+        to="/app/dashboard" 
+        style={({ isActive }) => isActive ? { ...styles.link, ...styles.active } : styles.link}
+      >
         <FaChartBar size={24} />
         <div style={styles.label}>Stats</div>
-      </Link>
+      </NavLink>
 
-      <Link to="/profile" style={styles.link}>
+      <NavLink 
+        to="/app/profile" 
+        style={({ isActive }) => isActive ? { ...styles.link, ...styles.active } : styles.link}
+      >
         <FaUser size={24} />
         <div style={styles.label}>Profile</div>
-      </Link>
+      </NavLink>
     </nav>
   );
 };
@@ -33,20 +42,29 @@ const styles = {
     justifyContent: 'space-around',
     alignItems: 'center',
     backgroundColor: '#fff',
-    borderTop: '1px solid #ccc',
-    padding: '8px 0',
+    padding: '5px 0',
+    zIndex: 1000, // ensure it appears above other elements
   },
   link: {
     textAlign: 'center',
-    color: 'inherit',
+    padding: '5px 30px',
+    color: 'darkgrey',
     textDecoration: 'none',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    borderRadius: '20px',
   },
+  
+  active: {
+    color: '#4287f5',
+    backgroundColor: '#f2f7ff'
+  },
+
   label: {
     fontSize: '0.8rem',
     marginTop: '4px',
+    caretColor: 'transparent'
   },
 };
 

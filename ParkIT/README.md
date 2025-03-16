@@ -11,7 +11,7 @@ Park IT enables drivers to securely register and log in, search for available ca
 - **Build Tool:** Gradle
 
 ### Frontend
-- **Framework:** React.js
+- **Framework:** React
 - **Bundler/Dev Server:** Vite
 - **Styling:** Tailwind CSS
 

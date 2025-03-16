@@ -1,44 +1,57 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
 
-function Park () {
-  const [token, setToken] = useState(null);
+const OneMapBasemap = () => {
+    const [accessToken, setAccessToken] = useState('');
 
-  useEffect(() => {
-    let script;
-
-    axios.get('/api/onemap/token')
-      .then(response => {
-        const accessToken = response.data.accessToken;
-        setToken(accessToken);
-
-        // Dynamically load the OneMap API script
-        script = document.createElement('script');
-        script.src = 'https://www.onemap.gov.sg/api/main/v2/index.js';
-        script.async = true;
-        script.onload = () => {
-          if (window.onemap) {
-            // Initialize and display the map in the "map" div
-            const map = window.onemap.setUpMap({ token: accessToken });
-            map.showMap(null, 'map');
-          }
-        };
-        document.body.appendChild(script);
-      })
-      .catch(error => console.error('Error fetching token:', error));
-
-    // Cleanup: Remove script and clear map if necessary
-    return () => {
-      if (script) {
-        document.body.removeChild(script);
+    // Function to fetch the token from the backend
+    const fetchToken = async (forceRefresh = false) => {
+      try {
+        const response = await fetch(`http://localhost:8080/api/onemap/token?forceRefresh=${forceRefresh}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const token = await response.text();
+        setAccessToken(token);
+        console.log("Retrieved token:", token);
+      } catch (error) {
+        console.error("Error fetching token:", error);
       }
-      if (window.onemap && window.onemap.clear) {
-        window.onemap.clear();
-      }
+    };
+
+    useEffect(() => {
+        fetchToken();
+
+        const map = L.map('map', {
+            center: [1.3480, 103.6842],
+            zoom: 16
+        });
+
+        const sw = L.latLng(1.144, 103.535);
+        const ne = L.latLng(1.494, 104.502);
+        const bounds = L.latLngBounds(sw, ne);
+        map.setMaxBounds(bounds);
+
+        L.tileLayer('https://www.onemap.gov.sg/maps/tiles/Default/{z}/{x}/{y}.png', {
+        detectRetina: true,
+        maxZoom: 19,
+        minZoom: 11,
+        attribution: '<img src="https://www.onemap.gov.sg/web-assets/images/logo/om_logo.png" style="height:20px;width:20px;"/>&nbsp;<a href="https://www.onemap.gov.sg/" target="_blank" rel="noopener noreferrer">OneMap</a>&nbsp;&copy;&nbsp;contributors&nbsp;&#124;&nbsp;<a href="https://www.sla.gov.sg/" target="_blank" rel="noopener noreferrer">Singapore Land Authority</a>'
+        }).addTo(map);
+
+        // Move attribution to top right so navbar doesnt cover it
+        map.attributionControl.setPrefix('');
+        map.attributionControl.setPosition('topright');
+
+        return () => {
+        map.remove();
     };
   }, []);
 
-  return <div id="map" style={{ width: '100%', height: '500px' }} />;
+  return (
+    <div id="map" style={{ width: '100vw', height: '100vh' }}></div>
+  );
 };
 
-export default Park;
+export default OneMapBasemap;
