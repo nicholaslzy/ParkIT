@@ -38,6 +38,17 @@ Park IT enables drivers to securely register and log in, search for available ca
 4. **Open Browser** 
     http://localhost:5173/
 
+## Debugging (view logs)
+
+- **Backend**
+    - ```cd backend```
+    - ```./gradlew bootRun```
+    
+- **Frontend** 
+    - ```cd frontend```
+    - ```npm run dev```
+
+
 
 ## Project Structure
 
