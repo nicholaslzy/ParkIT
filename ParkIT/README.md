@@ -1,7 +1,7 @@
 # ParkIT
 
-ParkIT is a web application built with the Java Spring Framewor as backend, and react.js and tailwind CSS frameworks for frontend.
-Park IT enables drivers to securely register and log in, search for available car parks, manage active parking sessions with real-time navigation and cost calculation, and review their parking history along with saving favorite car parks.
+ParkIT is built with the Java Spring Framework as backend and react.js and tailwind CSS frameworks for frontend.
+ParkIT enables drivers to securely register and log in, search for available car parks, manage active parking sessions with real-time navigation and cost calculation, and review their parking history along with saving favorite car parks.
 
 ## Tech stack
 
